@@ -46,35 +46,35 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 	
 	rTable.setXP = function(m)
 		if type(m) == "number" then
-				self.xp = m
-				TriggerClientEvent('redemrp:addXP', self.source, m)
-				TriggerClientEvent('redemrp:activateXP', self.source , self.xp)
+			self.xp = m
+			TriggerClientEvent('redemrp:addXP', self.source, m)
+			TriggerClientEvent('redemrp:activateXP', self.source , self.xp)
 			local case = 1, lvlNow, lvlNew
-            while true do
-                if self.xp > Levels[case] then
-                    case = case + 1
-                else 
-                lvlNow = case
-                break
-                end
-            end
-            case = 1
-            while true do
-				cache = case + 1
-                if m > Levels[cache] then
-                    case = case + 1
-                else 
-                lvlNew = case
-                break
-                end
-            end
+			
+            		while true do
+               			if self.xp > Levels[case] then
+                    			case = case + 1
+                		else 
+                			lvlNow = case
+                			break
+                		end
+            		end
 
-            if lvlNow ~= lvlNew then
-               --print("New level from " .. lvlNow .. " to " .. lvlNew)
-			   rTable.setLevel(tonumber(lvlNew))
-        else
-        --print("Old level " .. lvlNow .. " == " .. lvlNew)
-            end
+            		case = 1
+
+            		while true do
+				cache = case + 1
+                		if m > Levels[cache] then
+                    			case = case + 1
+                		else 
+                			lvlNew = case
+                			break
+                		end
+            		end
+
+            		if lvlNow ~= lvlNew then
+				rTable.setLevel(tonumber(lvlNew))
+            		end
 		else
 			print('REDEMRP_ERROR: There seems to be an issue while setting xp, something else then a number was entered.')
 		end
@@ -102,9 +102,7 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 
 	rTable.setJob = function(m)
 		if type(m) == "string" then
-			--TriggerEvent("redemrp:setPlayerData", self.source, "job", m, function(response, success)
-				self.job = m
-			--end)
+			self.job = m
 		else
 			print('REDEMRP_ERROR: There seems to be an issue while setting job, something else then a text was entered.')
 		end
@@ -112,9 +110,7 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 
 	rTable.setJobgrade = function(m)
 		if type(m) == "number" then
-			--TriggerEvent("redemrp:setPlayerData", self.source, "jobgrade", m, function(response, success)
-				self.jobgrade = m
-			--end)
+			self.jobgrade = m
 		else
 			print('REDEMRP_ERROR: There seems to be an issue while setting jobgrade, something else then a text was entered.')
 		end
@@ -122,45 +118,44 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 	
 	rTable.addXP = function(m)
         if type(m) == "number" then
-            local newXP = self.xp + m
+            	local newXP = self.xp + m
+            	local case = 1, lvlNow, lvlNew
 
-            local case = 1, lvlNow, lvlNew
-            while true do
-                if self.xp > Levels[case] then
-                    case = case + 1
-                else 
-                lvlNow = case
-                break
-                end
-            end
-            case = 1
-            while true do
-                if newXP > Levels[case] then
-                    case = case + 1
-                else 
-                lvlNew = case
-                break
-                end
-            end
+            	while true do
+			if self.xp > Levels[case] then
+			    case = case + 1
+			else 
+				lvlNow = case
+				break
+			end
+            	end
 
-            if lvlNow ~= lvlNew then
-               --print("New level from " .. lvlNow .. " to " .. lvlNew)
-			   rTable.setLevelwXP(tonumber(lvlNew))
-        else
-        --print("Old level " .. lvlNow .. " == " .. lvlNew)
-            end
+            	case = 1
+
+            	while true do
+                	if newXP > Levels[case] then
+                    		case = case + 1
+                	else 
+                		lvlNew = case
+                		break
+                	end
+            	end
+
+            	if lvlNow ~= lvlNew then
+			rTable.setLevelwXP(tonumber(lvlNew))
+            	end
 			
 
 			--self.xp = newXP
-			if newXP > self.xp then
-				self.xp = newXP
+		if newXP > self.xp then
+			self.xp = newXP
 			TriggerClientEvent('redemrp:addXP', self.source, m)
 			TriggerClientEvent('redemrp:activateXP', self.source , self.xp)
-			else
-				self.xp = newXP
+		else
+			self.xp = newXP
 			TriggerClientEvent('redemrp:removeXP', self.source, m)
 			TriggerClientEvent('redemrp:activateXP', self.source , self.xp)
-			end
+		end
             
         else
             print('REDEMRP_ERROR: There seems to be an issue while adding xp, a different type then number was trying to be added.')
@@ -170,7 +165,7 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 	-- Sets a players gold balance
 	rTable.setGold = function(m)
 		if type(m) == "number" then
-				self.gold = m
+			self.gold = m
 
 			TriggerClientEvent('redemrp:addGold', self.source, self.gold)
 			TriggerClientEvent('redemrp:activateGold', self.source , self.gold)
@@ -191,10 +186,7 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 	rTable.addMoney = function(m)
 		if type(m) == "number" then
 			local newMoney = self.money + m
-
 			self.money = newMoney
-			
-	
 
 			TriggerClientEvent('redemrp:addMoney', self.source, m)
 			TriggerClientEvent('redemrp:activateMoney', self.source , self.money)
@@ -207,7 +199,6 @@ function CreateRoleplayPlayer(source, identifier, name, money, gold, license, gr
 	rTable.removeMoney = function(m)
 		if type(m) == "number" then
 			local newMoney = self.money - m
-
 			self.money = newMoney
 
 			TriggerClientEvent('redemrp:removeMoney', self.source, m)
