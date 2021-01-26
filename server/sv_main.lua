@@ -88,7 +88,7 @@ AddEventHandler('playerDropped', function()
 	if(Users[Source])then
 		TriggerEvent("redemrp:playerDropped", Users[Source])
 		TriggerEvent("redemrp_db:updateUser", Users[Source].getIdentifier(), tonumber(Users[Source].getSessionVar("charid")), {money = Users[Source].getMoney(), gold = Users[Source].getGold(), xp = tonumber(Users[Source].getXP()), level = tonumber(Users[Source].getLevel())}, function()
-		Users[Source] = nil
+			Users[Source] = nil
 		end)
 	end
 end)
@@ -132,21 +132,24 @@ local DBData
 
 function CharacterExist (id)	
 	local test = false
-	    for k,v in pairs(DBData) do
-			if v.characterid == id then
-				test = true
-			end
+	for k,v in pairs(DBData) do
+		if v.characterid == id then
+			test = true
 		end
-    return (test)
+	end
+	
+	return (test)
 end	
 
 AddEventHandler('redemrp_db:createUser', function(identifier, firstname, lastname, callback)
 	MySQL.Async.fetchAll('SELECT * FROM characters WHERE `identifier`=@identifier', {identifier = identifier}, function(users)
 		DBData = users
 		local charID = 1
+
 		while CharacterExist(charID) do 
-		   charID = charID + 1
-      		 end
+			charID = charID + 1
+      		end
+
 		print("Found charID "..charID)
 		MySQL.Async.execute('INSERT INTO characters (`identifier`, `firstname`, `lastname`, `characterid`) VALUES (@identifier, @firstname, @lastname, @characterid);',
 		{
